@@ -74,6 +74,7 @@ public class BahnhoeferView {
     	if(bModel.getBahnhof() != null){
     		txtAnzeige.setText(
     			bModel.getBahnhof().gibBahnhofZurueck(' '));
+    		
     	}
     	else{
     		zeigeInformationsfensterAn("Bisher wurde keine Bahnhof aufgenommen!");
@@ -155,7 +156,8 @@ public class BahnhoeferView {
 	    btnEingabe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            	 zeigeBahnhoefeAn();
+            	zeigeInformationsfensterAn(
+      	  	   			"Der Bahnhof wurde gelesen!");
             }
 	    });
 	    btnAnzeige.setOnAction(new EventHandler<ActionEvent>() {

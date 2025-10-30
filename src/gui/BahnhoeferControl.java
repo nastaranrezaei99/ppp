@@ -21,7 +21,8 @@ public class BahnhoeferControl {
 	 void schreibeBahnhoefeInCsvDatei(String typ) {
 		try {
 			bModel.schreibeBahnhoefeInCsvDatei();
-			
+			bView.zeigeInformationsfensterAn(
+  	  	   			"Der Bahnhof wurde gelesen!");
 		}	
 		catch(IOException exc){
 			bView.zeigeFehlermeldungsfensterAn(
@@ -38,7 +39,8 @@ public class BahnhoeferControl {
 		 try {
 		 if("csv".equals(typ)) {
 			 bModel.leseAusDatei(typ);
-			 
+			 bView.zeigeInformationsfensterAn(
+   	  	   			"Der Bahnhof wurde gelesen!");
 			 
 		 }
 		 else{
