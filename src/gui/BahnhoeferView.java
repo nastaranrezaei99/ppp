@@ -43,17 +43,7 @@ public class BahnhoeferView {
     private MenuItem mnItmCsvExport 		= new MenuItem("csv-Export");
     private BahnhoeferControl bControl;
     private BahnhoeferModel bModel;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    private Stage primaryStage;
     
     
 	public BahnhoeferView(Stage primaryStage,BahnhoeferControl bControl, BahnhoeferModel bModel) {
@@ -65,9 +55,9 @@ public class BahnhoeferView {
     	primaryStage.setScene(scene);
     	primaryStage.setTitle("Verwaltung von Bahnhoefen");
     	primaryStage.show();
-    	this.initKomponenten();
-		this.initListener();
-		
+    	initKomponenten();
+		initListener();
+		this.primaryStage=primaryStage;
 		
 	}
 	private void zeigeBahnhoefeAn(){
@@ -156,14 +146,13 @@ public class BahnhoeferView {
 	    btnEingabe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            	zeigeInformationsfensterAn(
-      	  	   			"Der Bahnhof wurde gelesen!");
+            	bControl.nehmeBahnhofAuf();
             }
 	    });
 	    btnAnzeige.setOnAction(new EventHandler<ActionEvent>() {
 	    	@Override
 	        public void handle(ActionEvent e) {
-	            zeigeBahnhoefeAn();
+	            bControl.zeigeBahnhoefeAn();
 	        } 
    	    });
 	    mnItmCsvImport.setOnAction(new EventHandler<ActionEvent>() {
@@ -181,7 +170,7 @@ public class BahnhoeferView {
 	    mnItmCsvExport.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				bControl.schreibeBahnhoefeInCsvDatei("csv");
+				bControl.schreibeBahnhoefeInCsvDatei();
 			}	
 	    });
     }
@@ -199,5 +188,54 @@ public class BahnhoeferView {
         	"Fehler", meldung).zeigeMeldungsfensterAn();
     }
 
+    
+    public TextField getTxtName() {
+		return txtName;
+	}
+
+	public void setTxtName(TextField txtName) {
+		this.txtName = txtName;
+	}
+
+	public TextField getTxtOrt() {
+		return txtOrt;
+	}
+
+	public void setTxtOrt(TextField txtOrt) {
+		this.txtOrt = txtOrt;
+	}
+
+	public TextField getTxtAnzahlGleise() {
+		return txtAnzahlGleise;
+	}
+
+	public void setTxtAnzahlGleise(TextField txtAnzahlGleise) {
+		this.txtAnzahlGleise = txtAnzahlGleise;
+	}
+
+	public TextField getTxtLetzteRenovierung() {
+		return txtLetzteRenovierung;
+	}
+
+	public void setTxtLetzteRenovierung(TextField txtLetzteRenovierung) {
+		this.txtLetzteRenovierung = txtLetzteRenovierung;
+	}
+
+	public TextField getTxtZugarten() {
+		return txtZugarten;
+	}
+
+	public void setTxtZugarten(TextField txtZugarten) {
+		this.txtZugarten = txtZugarten;
+	}
+
+	public TextArea getTxtAnzeige() {
+		return txtAnzeige;
+	}
+
+	public void setTxtAnzeige(TextArea txtAnzeige) {
+		this.txtAnzeige = txtAnzeige;
+	}
+    
 
 }

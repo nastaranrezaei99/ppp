@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import business.BahnhoeferModel;
+import business.Bahnhof;
 import javafx.stage.Stage;
 
 public class BahnhoeferControl {
@@ -12,26 +13,24 @@ public class BahnhoeferControl {
 	private BahnhoeferView bView;
 	private BahnhoeferModel bModel;
 	public BahnhoeferControl(Stage primaryStage) {
-		super();
-		this.bModel = new BahnhoeferModel();
+		
 		this.bView = new BahnhoeferView(primaryStage, this, bModel);
+		this.bModel = new BahnhoeferModel();
+		
 	
 	}
 	
-	 void schreibeBahnhoefeInCsvDatei(String typ) {
+	 void schreibeBahnhoefeInCsvDatei() {
 		try {
 			bModel.schreibeBahnhoefeInCsvDatei();
 			bView.zeigeInformationsfensterAn(
-  	  	   			"Der Bahnhof wurde gelesen!");
+  	  	   			"Die Bahnhof wurden gespeichert!");
 		}	
-		catch(IOException exc){
-			bView.zeigeFehlermeldungsfensterAn(
-				"IOException beim Speichern!");
-		}
 		catch(Exception exc){
 			bView.zeigeFehlermeldungsfensterAn(
 				"Unbekannter Fehler beim Speichern!");
 		}
+		
 	}
 
 	
@@ -48,15 +47,37 @@ public class BahnhoeferControl {
 		   				"Noch nicht implementiert!");
 			 
 		 }
-		 }catch(IOException exc){
-				bView.zeigeFehlermeldungsfensterAn(
-						"IOException beim Speichern!");
-			}
+		 }
 		catch(Exception exc){
 				bView.zeigeFehlermeldungsfensterAn(
 				"Unbekannter Fehler beim Speichern!");
 						}
 	 }
-	
+	  
+	  void nehmeBahnhofAuf(){
+	    	try{ 
+	    		bModel.setBahnhof(new Bahnhof(
+	    			bView.getTxtName().getText(), 
+	   	            bView.getTxtOrt().getText(),
+	   	            Integer.parseInt(bView.getTxtAnzahlGleise().getText()),
+	   	        	Integer.parseInt(bView.getTxtLetzteRenovierung().getText()),
+	    		    bView.getTxtZugarten().getText().split(";")));
+	    		
+	       	}
+	       	catch(Exception exc){
+	       		bView.zeigeFehlermeldungsfensterAn(exc.getMessage());
+	     	}
+	  }
 
+	  
+	  void zeigeBahnhoefeAn(){
+		  if(bModel.getBahnhof() != null){
+			  bView.getTxtAnzeige().setText(
+					  bModel.getBahnhof().gibBahnhofZurueck(' '));
+	}
+		  else{
+			  bView.zeigeInformationsfensterAn("Bisher wurde keine Bahnhof aufgenommen!");
+	}
+}   
 }
+	  
