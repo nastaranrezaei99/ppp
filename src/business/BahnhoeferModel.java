@@ -32,15 +32,9 @@ public class BahnhoeferModel {
 			aus.write(bahnhof.gibBahnhofZurueck(';'));
 			aus.close();
 		
-	
-	
+			
 
 }
-	
-	
-	 public BahnhoeferModel() {
-		super();
-	}
 
 
 
