@@ -37,11 +37,16 @@ public class BahnhoeferControl {
 	  void leseAusDatei(String typ){
 		 try {
 		 if("csv".equals(typ)) {
-			 bModel.leseAusDatei(typ);
+			 bModel.leseAusCsvDatei();
 			 bView.zeigeInformationsfensterAn(
    	  	   			"Der Bahnhof wurde gelesen!");
 			 
 		 }
+		 if("txt".equals(typ)) {
+			 bModel.leseAusTxtDatei();
+			 bView.zeigeInformationsfensterAn(
+   	  	   			"Der Bahnhof wurde gelesen!");}
+		 
 		 else{
 			 bView.zeigeInformationsfensterAn(
 		   				"Noch nicht implementiert!");

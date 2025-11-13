@@ -5,6 +5,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+import fileCreatorsRezaei.ConcreteCsvReaderCreator;
+import fileCreatorsRezaei.ConcreteCsvReaderCreatorB;
+import fileCreatorsRezaei.ReaderCreatorRezaei;
+import fileCreatorsRezaei.ReaderProductRezaei;
 import gui.BahnhoeferControl;
 import gui.BahnhoeferView;
 
@@ -38,16 +42,35 @@ public class BahnhoeferModel {
 
 
 
-	public void leseAusDatei(String typ) throws Exception{
-		 BufferedReader ein = new BufferedReader(new FileReader("Bahnhof.csv"));
-			String[] zeile = ein.readLine().split(";");
-			bahnhof = new Bahnhof(zeile[0], 
-				zeile[1], 
-				Integer.parseInt(zeile[2]), 
-				Integer.parseInt(zeile[3]), 
-				zeile[4].split("_"));
-				ein.close();
-	 }
+	
+	public void leseAusCsvDatei() throws Exception {
+		ReaderCreatorRezaei rc = new ConcreteCsvReaderCreator();
+		ReaderProductRezaei rp = rc.factoryMethode();
+		String[] zeile = rp.leseAusDatei();
+		this.bahnhof = new Bahnhof(zeile[0], 
+				Float.parseFloat(zeile[1]),
+				Float.parseFloat(zeile[2]), 
+				zeile[3], zeile[4].split("_"));
+		
+		rp.schliesseDatei();
+		
+	}
+	
+	public void leseAusTxtDatei() throws Exception {
+		ReaderCreatorRezaei rc = new ConcreteCsvReaderCreatorB();
+		ReaderProductRezaei rp = rc.factoryMethode();
+		String[] zeile = rp.leseAusDatei();
+		this.bahnhof = new Bahnhof(zeile[0], 
+				Float.parseFloat(zeile[1]),
+				Float.parseFloat(zeile[2]), 
+				zeile[3], zeile[4].split("_"));
+		
+		rp.schliesseDatei();
+	}
+	
+	
+	
+	
 	 
 	 
 	 

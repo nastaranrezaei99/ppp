@@ -17,6 +17,10 @@ public class Bahnhof {
        	this.zugarten = zugarten;
     }
 
+	public Bahnhof(String name2, float parseFloat, float parseFloat2, String string, String[] split) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getName() {
 		return name;
 	}
