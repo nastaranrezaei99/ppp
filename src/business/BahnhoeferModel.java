@@ -34,7 +34,7 @@ public class BahnhoeferModel implements Observable {
     }
 
     public void setBahnhof(Bahnhof bahnhof) {
-        this.bahnhof = bahnhof;
+        this.bahnhof = bahnhof; 
         
         
         notifyObserver();
