@@ -35,47 +35,44 @@ public class BahnhoeferModel implements Observable {
 
     public void setBahnhof(Bahnhof bahnhof) {
         this.bahnhof = bahnhof;
+        
+        
         notifyObserver();
     }
 
     public void leseAusDatei(String typ) throws IOException {
 
-        ReaderCreatorRezaei readerCreator;
+        
 
-        if ("csv".equalsIgnoreCase(typ)) {
-            readerCreator = new ConcreteCsvReaderCreator();
-        } else if ("txt".equalsIgnoreCase(typ)) {
-            readerCreator = new ConcreteCsvReaderCreatorB();
-        } else {
-            throw new IllegalArgumentException("Unbekannter Typ: " + typ);
-        }
-
+        /*if("csv".equals(typ)){
+			BufferedReader ein = new BufferedReader(new FileReader("Bahnhof.csv"));
+			String[] zeile = ein.readLine().split(";");
+			setBahnhof(new Bahnhof(zeile[0], 
+								zeile[1], 
+								Integer.parseInt(zeile[2]), 
+								Integer.parseInt(zeile[3]), 
+								zeile[4].split("_")));
+			ein.close();
+		}
+	return null;*/
+    	
+    	ReaderCreatorRezaei readerCreator =new ConcreteCsvReaderCreator();
         ReaderProductRezaei readerProduct = readerCreator.factoryMethode();
-
+	
+	
         String[] zeile = readerProduct.leseAusDatei();
-        readerProduct.schliesseDatei();
-
-        Bahnhof b = new Bahnhof(
-                zeile[0],
-                zeile[1],
-                Integer.parseInt(zeile[2]),
-                Integer.parseInt(zeile[3]),
-                zeile[4].split("_")
-        );
-
-        setBahnhof(b);
-    }
+        this.bahnhof = new Bahnhof(zeile[0], zeile[1], Integer.parseInt(zeile[2]), Integer.parseInt(zeile[3]), zeile[4].split("_"));
+        
+        notifyObserver();
+	
+}
 
     public void schreibeBahnhoefeInCsvDatei() throws IOException {
-        if (bahnhof == null) {
-            throw new IllegalStateException("Kein Bahnhof zum Export vorhanden");
-        }
-
-        try (BufferedWriter aus = new BufferedWriter(
-                new FileWriter("BahnhoefeAusgabe.csv", true))) {
-            aus.write(bahnhof.gibBahnhofZurueck(';'));
-        }
-
+    	BufferedWriter aus = new BufferedWriter(new FileWriter("BahnhoefeAusgabe.csv", true));
+		aus.write(bahnhof.gibBahnhofZurueck(';'));
+		aus.close();
+	
+		
         notifyObserver();
     }
 
