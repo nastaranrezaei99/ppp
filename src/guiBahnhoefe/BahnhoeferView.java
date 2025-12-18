@@ -1,7 +1,12 @@
 package guiBahnhoefe;
 
+
+
 import business.BahnhoeferModel;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -10,55 +15,67 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ownUtil.MeldungsfensterAnzeiger;
 
-public class BahnhoeferView {
+public class BahnhoeferView  {
 
-    private BahnhoeferControl coltrol;
-    private BahnhoeferModel model;
-    private Stage stage;
+    private Pane pane = new Pane();
+    private Label lblEingabe = new Label("Eingabe");
+    private Label lblAnzeige = new Label("Anzeige");
+    private Label lblName = new Label("Name:");
+    private Label lblOrt = new Label("Ort:");
+    private Label lblAnzahlGleise = new Label("AnzahlGleise:");
+    private Label lblLetzteRenovierung = new Label("Letzte Renovierung:");
+    private Label lblZugarten = new Label("Zugarten:");
+    private TextField txtName = new TextField();
+    private TextField txtOrt = new TextField();
+    private TextField txtAnzahlGleise = new TextField();
+    private TextField txtLetzteRenovierung = new TextField();
+    private TextField txtZugarten = new TextField();
+    private TextArea txtAnzeige = new TextArea();
+    private Button btnEingabe = new Button("Eingabe");
+    private Button btnAnzeige = new Button("Anzeige");
+    private MenuBar mnbrMenuLeiste = new MenuBar();
+    private Menu mnDatei = new Menu("Datei");
+    private MenuItem mnItmCsvImport = new MenuItem("csv-Import");
+    private MenuItem mnItmTxtImport = new MenuItem("txt-Import");
+    private MenuItem mnItmCsvExport = new MenuItem("csv-Export");
 
-    Pane pane = new Pane();
-    Label lblEingabe = new Label("Eingabe");
-    Label lblAnzeige = new Label("Anzeige");
-    Label lblName = new Label("Name:");
-    Label lblOrt = new Label("Ort:");
-    Label lblAnzahlGleise = new Label("AnzahlGleise:");
-    Label lblLetzteRenovierung = new Label("Letzte Renovierung:");
-    Label lblZugarten = new Label("Zugarten:");
-    TextField txtName = new TextField();
-    TextField txtOrt = new TextField();
-    TextField txtAnzahlGleise = new TextField();
-    TextField txtLetzteRenovierung = new TextField();
-    TextField txtZugarten = new TextField();
-    TextArea txtAnzeige = new TextArea();
-    Button btnEingabe = new Button("Eingabe");
-    Button btnAnzeige = new Button("Anzeige");
-    MenuBar mnbrMenuLeiste = new MenuBar();
-    Menu mnDatei = new Menu("Datei");
-    MenuItem mnItmCsvImport = new MenuItem("csv-Import");
-    MenuItem mnItmTxtImport = new MenuItem("txt-Import");
-    MenuItem mnItmCsvExport = new MenuItem("csv-Export");
+    private BahnhoeferControl bControl;
+    private BahnhoeferModel bModel;
+    private Stage primaryStage;
 
-    public BahnhoeferView(BahnhoeferControl control, BahnhoeferModel model, Stage primaryStage) {
-        this.coltrol = control;
-        this.model = model;
+    public BahnhoeferView( BahnhoeferControl bControl, BahnhoeferModel bModel,Stage primaryStage) {
+
+        this.bControl = bControl;
+        this.bModel = bModel;
+        this.primaryStage = primaryStage;
+
+       
 
         Scene scene = new Scene(this.pane, 700, 340);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Verwaltung von Bahnhoefen");
         primaryStage.show();
 
-        this.stage = primaryStage;
-        this.initKomponenten();
+        initKomponenten();
+        initListener();
+    }
+
+     void zeigeBahnhoefeAn() {
+        if (bModel.getBahnhof() != null) {
+            txtAnzeige.setText(
+                    bModel.getBahnhof().gibBahnhofZurueck(' '));
+        } else {
+            zeigeInformationsfensterAn("Bisher wurde kein Bahnhof aufgenommen!");
+        }
     }
 
     private void initKomponenten() {
-
+        // Labels
         lblEingabe.setLayoutX(20);
         lblEingabe.setLayoutY(40);
         Font font = new Font("Arial", 24);
@@ -78,9 +95,11 @@ public class BahnhoeferView {
         lblLetzteRenovierung.setLayoutY(210);
         lblZugarten.setLayoutX(20);
         lblZugarten.setLayoutY(250);
-        pane.getChildren().addAll(lblEingabe, lblAnzeige, lblName, lblOrt,
-                lblAnzahlGleise, lblLetzteRenovierung, lblZugarten);
+        pane.getChildren().addAll(lblEingabe, lblAnzeige,
+                lblName, lblOrt, lblAnzahlGleise,
+                lblLetzteRenovierung, lblZugarten);
 
+        // Textfelder
         txtName.setLayoutX(170);
         txtName.setLayoutY(90);
         txtName.setPrefWidth(200);
@@ -96,9 +115,11 @@ public class BahnhoeferView {
         txtZugarten.setLayoutX(170);
         txtZugarten.setLayoutY(250);
         txtZugarten.setPrefWidth(200);
-        pane.getChildren().addAll(txtName, txtOrt, txtAnzahlGleise,
+        pane.getChildren().addAll(
+                txtName, txtOrt, txtAnzahlGleise,
                 txtLetzteRenovierung, txtZugarten);
 
+        // Textbereich
         txtAnzeige.setEditable(false);
         txtAnzeige.setLayoutX(400);
         txtAnzeige.setLayoutY(90);
@@ -106,19 +127,60 @@ public class BahnhoeferView {
         txtAnzeige.setPrefHeight(185);
         pane.getChildren().add(txtAnzeige);
 
+        // Buttons
         btnEingabe.setLayoutX(20);
         btnEingabe.setLayoutY(290);
         btnAnzeige.setLayoutX(400);
         btnAnzeige.setLayoutY(290);
         pane.getChildren().addAll(btnEingabe, btnAnzeige);
 
-        mnbrMenuLeiste.getMenus().add(mnDatei);
-        mnDatei.getItems().add(mnItmCsvImport);
-        mnDatei.getItems().add(mnItmTxtImport);
-        mnDatei.getItems().add(new SeparatorMenuItem());
-        mnDatei.getItems().add(mnItmCsvExport);
+        // Menü
+        this.mnbrMenuLeiste.getMenus().add(mnDatei);
+        this.mnDatei.getItems().add(mnItmCsvImport);
+        this.mnDatei.getItems().add(mnItmTxtImport);
+        this.mnDatei.getItems().add(new SeparatorMenuItem());
+        this.mnDatei.getItems().add(mnItmCsvExport);
         pane.getChildren().add(mnbrMenuLeiste);
     }
+
+    private void initListener() {
+        btnEingabe.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                bControl.nehmeBahnhofAuf();
+            }
+        });
+
+        btnAnzeige.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                bControl.zeigeBahnhoefeAn();
+            }
+        });
+
+        mnItmCsvImport.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                bControl.leseAusDatei("csv");
+            }
+        });
+
+        mnItmTxtImport.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                bControl.leseAusDatei("txt");
+            }
+        });
+
+        mnItmCsvExport.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                bControl.schreibeBahnhoefeInCsvDatei();
+            }
+        });
+    }
+
+   
 
     void zeigeInformationsfensterAn(String meldung) {
         new MeldungsfensterAnzeiger(AlertType.INFORMATION,
@@ -128,5 +190,29 @@ public class BahnhoeferView {
     void zeigeFehlermeldungsfensterAn(String meldung) {
         new MeldungsfensterAnzeiger(AlertType.ERROR,
                 "Fehler", meldung).zeigeMeldungsfensterAn();
+    }
+
+    public TextField getTxtName() {
+        return txtName;
+    }
+
+    public TextField getTxtOrt() {
+        return txtOrt;
+    }
+
+    public TextField getTxtAnzahlGleise() {
+        return txtAnzahlGleise;
+    }
+
+    public TextField getTxtLetzteRenovierung() {
+        return txtLetzteRenovierung;
+    }
+
+    public TextField getTxtZugarten() {
+        return txtZugarten;
+    }
+
+    public TextArea getTxtAnzeige() {
+        return txtAnzeige;
     }
 }

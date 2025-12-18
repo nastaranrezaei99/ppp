@@ -1,12 +1,18 @@
 package business;
 
+import java.util.ArrayList;
+
 public class Bahnhof {
 	
     private String name;
     private String ort;
     private int anzahlGleise;
     private int letzteRenovierung;
-    private String[] zugarten;
+    
+    
+    //private String[] zugarten;
+    private ArrayList<String> zugarten = new ArrayList<String>();
+    
     
     public Bahnhof(String name, String ort, int anzahlGleise,
        	int letzteRenovierung, String[] zugarten){
@@ -14,7 +20,28 @@ public class Bahnhof {
       	this.ort = ort;
        	this.anzahlGleise = anzahlGleise;
        	this.letzteRenovierung = letzteRenovierung;
-       	this.zugarten = zugarten;
+       	
+       	
+       	
+       	//this.zugarten = zugarten;
+       	
+       	if(zugarten == null)
+   	    {
+   	    	throw new IllegalArgumentException("Dienstleistungen dürfen nicht 0 sein");
+   	    }
+   	    this.setzugartenAusStringArray(zugarten);
+    }
+    
+    private void setzugartenAusStringArray(String[] zugarten)
+    {
+    	for(int i = 0; i < zugarten.length; i++)
+    	{
+    		this.zugarten.add(zugarten[i]);
+    	}
+       	
+       	
+       	
+       	
     }
 
 	public Bahnhof(String name2, float parseFloat, float parseFloat2, String string, String[] split) {
@@ -52,23 +79,57 @@ public class Bahnhof {
 	public void setLetzteRenovierung(int letzteRenovierung) {
 		this.letzteRenovierung = letzteRenovierung;
 	}
+	
+	
+	
 
-	public String[] getZugarten() {
+	/*public String[] getZugarten() {
+		return zugarten;
+	}*/
+	
+	public ArrayList<String> getZugarten() {
 		return zugarten;
 	}
+	
+	
+	
 
-	public void setZugarten(String[] zugarten) {
+	/*public void setZugarten(String[] zugarten) {
+		this.zugarten = zugarten;
+	}*/
+	
+	
+	public void setZugarten(ArrayList<String> zugarten) {
 		this.zugarten = zugarten;
 	}
 	
+	
+	
+	
  	public String getZugartenAlsString(char trenner) {
 		String ergebnis = "";
-		int i = 0;
+		
+		
+		/*int i = 0;
 		for(i = 0; i < this.getZugarten().length - 1; i++) {
 			ergebnis = ergebnis + this.getZugarten()[i] + trenner; 
-		}
-		return ergebnis	+ this.getZugarten()[i];
+		}*/
+		
+		
+		for(String zugart : this.zugarten) {
+			ergebnis += zugart;
+			}
+		
+		//return ergebnis	+ this.getZugarten()[i];
+		return ergebnis;
 	}
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
 	
 	public String gibBahnhofZurueck(char trenner){
   		return this.getName() + trenner 
