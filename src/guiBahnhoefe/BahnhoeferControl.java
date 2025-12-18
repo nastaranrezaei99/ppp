@@ -15,7 +15,7 @@ public class BahnhoeferControl implements Observer {
     public BahnhoeferControl(Stage primaryStage) {
         this.model = BahnhoeferModel.getInstance();
         this.view = new BahnhoeferView(this, model, primaryStage);
-        this.model.addObserver(this);          // ⬅️ حالا Control Observer است
+        this.model.addObserver(this);       
         this.initListener();
     }
 
@@ -51,7 +51,7 @@ public class BahnhoeferControl implements Observer {
         view.btnAnzeige.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                zeigeBahnhoefeAn();    // مثل قبل، فقط الان تو Control است
+                zeigeBahnhoefeAn();  
             }
         });
         view.mnItmCsvImport.setOnAction(new EventHandler<ActionEvent>() {
