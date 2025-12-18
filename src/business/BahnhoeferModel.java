@@ -3,6 +3,7 @@ package business;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import fileCreatorsRezaei.ConcreteCsvReaderCreator;
@@ -17,7 +18,7 @@ public class BahnhoeferModel implements Observable {
     private Vector<Observer> observers = new Vector<Observer>();
     private static BahnhoeferModel instance;
 
-    private Bahnhof bahnhof;
+    private ArrayList<Bahnhof> bahnhof = new ArrayList<Bahnhof>();
 
     private BahnhoeferModel() {
     }
@@ -29,12 +30,12 @@ public class BahnhoeferModel implements Observable {
         return instance;
     }
 
-    public Bahnhof getBahnhof() {
+    public ArrayList<Bahnhof> getBahnhof() {
         return bahnhof;
     }
 
-    public void setBahnhof(Bahnhof bahnhof) {
-        this.bahnhof = bahnhof; 
+    public void addBahnhof(Bahnhof bahnhof) {
+        this.bahnhof.add(bahnhof);
         
         
         notifyObserver();
@@ -61,18 +62,22 @@ public class BahnhoeferModel implements Observable {
 	
 	
         String[] zeile = readerProduct.leseAusDatei();
-        this.bahnhof = new Bahnhof(zeile[0], zeile[1], Integer.parseInt(zeile[2]), Integer.parseInt(zeile[3]), zeile[4].split("_"));
+        Bahnhof b = new Bahnhof(zeile[0], zeile[1], Integer.parseInt(zeile[2]), Integer.parseInt(zeile[3]), zeile[4].split("_"));
         
-        notifyObserver();
+        addBahnhof(b);
 	
 }
 
     public void schreibeBahnhoefeInCsvDatei() throws IOException {
     	BufferedWriter aus = new BufferedWriter(new FileWriter("BahnhoefeAusgabe.csv", true));
-		aus.write(bahnhof.gibBahnhofZurueck(';'));
+    	
+    	for (Bahnhof b : bahnhof) {
+            aus.write(b.gibBahnhofZurueck(';'));
+        }
+    	
+		//aus.write(bahnhof.gibBahnhofZurueck(';'));
 		aus.close();
 	
-		
         notifyObserver();
     }
 

@@ -26,7 +26,7 @@ public class BahnhoeferControl implements Observer {
                     view.getTxtZugarten().getText().split(";")
             );
 
-            model.setBahnhof(b);
+            model.addBahnhof(b);
             view.zeigeInformationsfensterAn("Der Bahnhof wurde aufgenommen!");
         } catch (Exception exc) {
             view.zeigeFehlermeldungsfensterAn(exc.getMessage());
@@ -34,11 +34,19 @@ public class BahnhoeferControl implements Observer {
     }
 
     void zeigeBahnhoefeAn() {
+    	String text = "";
         if (model.getBahnhof() != null) {
-            view.getTxtAnzeige().setText(model.getBahnhof().gibBahnhofZurueck(' '));
+           // view.getTxtAnzeige().setText(model.getBahnhof().gibBahnhofZurueck(' '));
+        	
+        	for (Bahnhof b : model.getBahnhof()) {
+                text += b.gibBahnhofZurueck(' ') + "\n";
+            }
+            view.getTxtAnzeige().setText(text);
+        	
         } else {
             view.zeigeInformationsfensterAn("Bisher wurde kein Bahnhof aufgenommen!");
         }
+ 
     }
 
     void leseAusDatei(String typ) {

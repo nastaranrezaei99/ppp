@@ -1,6 +1,8 @@
 package guiBahnhoefe;
 
 import business.BahnhoeferModel;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -37,6 +39,7 @@ public class MobilitaetsangeboteView {
         this.stage = primaryStage;
 
         initKomponenten();
+        initListener();
     }
 
     private void initKomponenten() {
@@ -58,11 +61,26 @@ public class MobilitaetsangeboteView {
         btnAnzeigeBahnhoefe.setLayoutY(290);
         pane.getChildren().add(btnAnzeigeBahnhoefe);
     }
+    
+    private void initListener() {
+        btnAnzeigeBahnhoefe.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+            	
+                mobilitaetsangeboteControl.zeigeBahnhoefeAn();
+            }
+        });
+    }
+    
+    
 
     
     Button getBtnAnzeigeBahnhoefe() {
         return btnAnzeigeBahnhoefe;
     }
+    
+    
+    
 
     void setAnzeigeText(String text) {
         txtAnzeigeBahnhoefe.setText(text);

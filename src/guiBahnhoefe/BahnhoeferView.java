@@ -2,7 +2,10 @@ package guiBahnhoefe;
 
 
 
+import java.util.ArrayList;
+
 import business.BahnhoeferModel;
+import business.Bahnhof;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -66,9 +69,25 @@ public class BahnhoeferView  {
     }
 
      void zeigeBahnhoefeAn() {
-        if (bModel.getBahnhof() != null) {
-            txtAnzeige.setText(
-                    bModel.getBahnhof().gibBahnhofZurueck(' '));
+        if (bModel.getBahnhof().size()>0) {
+            /*txtAnzeige.setText(
+                    bModel.getBahnhof().gibBahnhofZurueck(' '));*/
+    	 StringBuffer text =new StringBuffer();
+  			
+  			
+  		ArrayList<Bahnhof>bahnhoefer = bModel.getBahnhof();
+    	 
+  		for(Bahnhof b : bahnhoefer) {
+  			
+  			
+  			text.append(b.gibBahnhofZurueck(' '));
+			text.append("\n");
+  		}
+  		
+  		this.txtAnzeige.setText(text.toString());
+    	 
+    	 
+    	 
         } else {
             zeigeInformationsfensterAn("Bisher wurde kein Bahnhof aufgenommen!");
         }
@@ -158,12 +177,7 @@ public class BahnhoeferView  {
             }
         });
 
-        mnItmCsvImport.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                bControl.leseAusDatei("csv");
-            }
-        });
+        mnItmCsvImport.setOnAction(e->{bControl.leseAusDatei("csv");} );
 
         mnItmTxtImport.setOnAction(new EventHandler<ActionEvent>() {
             @Override

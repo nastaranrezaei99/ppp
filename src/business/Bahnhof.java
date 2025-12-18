@@ -10,8 +10,10 @@ public class Bahnhof {
     private int letzteRenovierung;
     
     
-    //private String[] zugarten;
-    private ArrayList<String> zugarten = new ArrayList<String>();
+    private String[] zugarten;
+    
+    
+   
     
     
     public Bahnhof(String name, String ort, int anzahlGleise,
@@ -20,33 +22,23 @@ public class Bahnhof {
       	this.ort = ort;
        	this.anzahlGleise = anzahlGleise;
        	this.letzteRenovierung = letzteRenovierung;
+       	this.zugarten = zugarten;
+       	
+       	if(name==null) {
+    		throw new IllegalArgumentException("zugarten darf nicht null sein!");
+       
+        }
        	
        	
-       	
-       	//this.zugarten = zugarten;
-       	
-       	if(zugarten == null)
-   	    {
-   	    	throw new IllegalArgumentException("Dienstleistungen dürfen nicht 0 sein");
-   	    }
-   	    this.setzugartenAusStringArray(zugarten);
-    }
-    
-    private void setzugartenAusStringArray(String[] zugarten)
-    {
-    	for(int i = 0; i < zugarten.length; i++)
-    	{
-    		this.zugarten.add(zugarten[i]);
-    	}
        	
        	
        	
        	
     }
 
-	public Bahnhof(String name2, float parseFloat, float parseFloat2, String string, String[] split) {
+	/*public Bahnhof(String name2, float parseFloat, float parseFloat2, String string, String[] split) {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	public String getName() {
 		return name;
@@ -83,25 +75,21 @@ public class Bahnhof {
 	
 	
 
-	/*public String[] getZugarten() {
-		return zugarten;
-	}*/
-	
-	public ArrayList<String> getZugarten() {
+	public String[] getZugarten() {
 		return zugarten;
 	}
+	
+	
 	
 	
 	
 
-	/*public void setZugarten(String[] zugarten) {
-		this.zugarten = zugarten;
-	}*/
-	
-	
-	public void setZugarten(ArrayList<String> zugarten) {
+	public void setZugarten(String[] zugarten) {
 		this.zugarten = zugarten;
 	}
+	
+	
+	
 	
 	
 	
@@ -110,20 +98,18 @@ public class Bahnhof {
 		String ergebnis = "";
 		
 		
-		/*int i = 0;
+		int i = 0;
 		for(i = 0; i < this.getZugarten().length - 1; i++) {
 			ergebnis = ergebnis + this.getZugarten()[i] + trenner; 
-		}*/
+		}
 		
 		
-		for(String zugart : this.zugarten) {
-			ergebnis += zugart;
-			}
 		
-		//return ergebnis	+ this.getZugarten()[i];
-		return ergebnis;
-	}
- 	
+		
+		return ergebnis	+ this.getZugarten()[i];
+		
+}
+
  	
  	
  	
@@ -139,4 +125,22 @@ public class Bahnhof {
   		    + this.getZugartenAlsString(trenner) + "\n";
   	}
 }
+
+
+
+
+
+/*	if(zugarten == null)
+   {
+   	throw new IllegalArgumentException("Dienstleistungen dürfen nicht 0 sein");
+   }
+   this.setzugartenAusStringArray(zugarten);
+}
+
+private void setzugartenAusStringArray(String[] zugarten)
+{
+for(int i = 0; i < zugarten.length; i++)
+{
+	this.zugarten.add(zugarten[i]);
+}*/
 
