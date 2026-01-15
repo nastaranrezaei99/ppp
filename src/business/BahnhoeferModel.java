@@ -93,7 +93,7 @@ public class BahnhoeferModel implements Observable {
 	public void notifyObserver() {
 		// TODO Auto-generated method stub
 		for (Observer obs : observers) {
-            obs.update();
+            obs.update(this);
         }
 	}
 

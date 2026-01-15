@@ -1,5 +1,5 @@
 package ownUtil;
 
 public interface Observer {
-    void update();
+    void update(Observable obs);
 }

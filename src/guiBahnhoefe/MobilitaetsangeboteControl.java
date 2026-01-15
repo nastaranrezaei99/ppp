@@ -1,40 +1,62 @@
 package guiBahnhoefe;
 
+import java.io.IOException;
 import business.BahnhoeferModel;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import business.CModel;
+import business.Carsharing;
 import javafx.stage.Stage;
+import ownUtil.Observable;
 import ownUtil.Observer;
 
 public class MobilitaetsangeboteControl implements Observer {
 
     private MobilitaetsangeboteView view;
     private BahnhoeferModel model;
+    private CModel cModel;
 
     public MobilitaetsangeboteControl(Stage primaryStage) {
         this.model = BahnhoeferModel.getInstance();
-        this.view = new MobilitaetsangeboteView(this, primaryStage, model);
-        this.model.addObserver(this);      
-        initListener();
+        this.cModel = CModel.getInstance();
+
+        this.view = new MobilitaetsangeboteView(
+                this,
+                primaryStage,
+                model,
+                cModel
+        );
+
+        model.addObserver(this);
+        cModel.addObserver(this);
     }
 
-    private void initListener() {
-        view.getBtnAnzeigeBahnhoefe().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                update();              
-            }
-        });
+    public void leseCarsharingAusCsvDatei() {
+        try {
+            cModel.leseCarsharingAusCsvDatei();
+        } catch (IOException e) {
+            view.zeigeInformationsfensterAn(
+                    "IOException beim Lesen von Carsharing"
+            );
+        } catch (Exception e) {
+            view.zeigeInformationsfensterAn(
+                    "Unbekannter Fehler beim Lesen von Carsharing"
+            );
+        }
+    }
+
+    public void leseAusDatei(String typ) {
+        
     }
 
     @Override
-    public void update() {
+    public void update(Observable obs) {
         if (model.getBahnhof() != null) {
             view.setAnzeigeText(
                     model.getBahnhof().gibBahnhofZurueck(' ')
             );
         } else {
-            view.zeigeInformationsfensterAn("Bisher wurde kein Bahnhof aufgenommen!");
+            view.zeigeInformationsfensterAn(
+                    "Bisher wurde kein Bahnhof aufgenommen!"
+            );
         }
     }
 }

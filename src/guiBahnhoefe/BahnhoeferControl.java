@@ -3,6 +3,7 @@ package guiBahnhoefe;
 import business.BahnhoeferModel;
 import business.Bahnhof;
 import javafx.stage.Stage;
+import ownUtil.Observable;
 import ownUtil.Observer;
 
 public class BahnhoeferControl implements Observer {
@@ -57,8 +58,10 @@ public class BahnhoeferControl implements Observer {
         }
     }
 
-    @Override
-    public void update() {
-        zeigeBahnhoefeAn();
-    }
+    
+	@Override
+	public void update(Observable obs) {
+		// TODO Auto-generated method stub
+		 zeigeBahnhoefeAn();
+	}
 }
